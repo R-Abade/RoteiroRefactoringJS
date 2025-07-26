@@ -66,6 +66,26 @@ function gerarFaturaStr(fatura, pecas) {
     return faturaStr;
 }
 
-
 const faturaStr = gerarFaturaStr(faturas, pecas);
 console.log(faturaStr);
+
+
+function gerarFaturaHTML(fatura, pecas) {
+    let faturaStr = `<html>\n<body>\n`;
+
+    faturaStr += '<ul>\n';
+    for(let apre of fatura.apresentacoes) {
+        const peca = getPeca(apre);
+        faturaStr += `<li> ${peca.nome}: ${formatarMoeda(calcularTotalApresentacao(apre))} (${apre.audiencia} assentos)</li>\n`;
+    }
+    faturaStr += '</ul>\n';
+
+    faturaStr += `<p>Valor total: ${formatarMoeda(calcularTotalFatura(fatura))}</p>\n`;
+
+    faturaStr += `<p>Créditos acumulados: ${calcularTotalCreditos(fatura)}</p>\n`;
+
+    faturaStr += '</body>\n</html>';
+
+    return faturaStr;
+}
+console.log(gerarFaturaHTML(faturas, pecas));
